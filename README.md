@@ -224,7 +224,7 @@ implementation of GFM Spec, we have found a few interesting details...
 
 - `cmark_gfm-001`: Contrary to the GFM spec stating _All such recognized autolinks
   can only come at the beginning of a line, after whitespace, or any of the
-  delimiting characters *, _, ~, and (_, it seems this applies just to extended
+  delimiting characters \*, \_, \~, and (_, it seems this applies just to extended
   www autolinks in cmark-gfm. E.g. `.https://orchi.tech` is recognized as an
   autolink by this library. We follow this.
 - `cmark_gfm-002`: Contrary to the GFM spec, extended autolinks in cmark-gfm do
