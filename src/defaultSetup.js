@@ -13,9 +13,6 @@ import tablePipeReplace from './replaces/tablePipeReplace';
 import CodeSpanSyntax from './syntax/CodeSpanSyntax';
 import LinkDestinationSyntax from './syntax/LinkDestinationSyntax';
 
-/**
- * Default escape setup.
- */
 const gfmSetupDefault = (s) => [
   [codeSpanReplace, s.name === CodeSpanSyntax.name],
   [extAutolinkReplace, s.inlinesInterpreted && !s.isLink],
