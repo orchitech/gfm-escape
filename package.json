@@ -1,0 +1,59 @@
+{
+  "name": "gfm-escape",
+  "version": "0.0.0",
+  "description": "Markdown and GFM escaper for converting plaintext into escaped Markdown",
+  "main": "dist/gfm-escape.cjs.js",
+  "module": "dist/gfm-escape.esm.js",
+  "browser": "dist/gfm-escape.umd.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prebuild": "npm run lint",
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+    "prepublish": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orchitech/gfm-escape.git"
+  },
+  "dependencies": {
+    "union-replacer": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "cmark-gfm": "^0.6.0",
+    "core-js-compat": "3.4.5",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jasmine": "^3.5.0",
+    "jasmine-diff": "^0.1.3",
+    "jsdom": "^15.2.1",
+    "jsesc": "^2.5.2",
+    "node-addon-api": "^1",
+    "request": "^2.88.0",
+    "rollup": "^1.27.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2"
+  },
+  "keywords": [
+    "markdown",
+    "gfm",
+    "escape",
+    "turndown"
+  ],
+  "files": [
+    "dist"
+  ],
+  "author": "Martin Cizek <martin.cizek@orchitech.cz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orchitech/gfm-escape/issues"
+  },
+  "homepage": "https://github.com/orchitech/gfm-escape#readme"
+}
