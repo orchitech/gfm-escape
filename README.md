@@ -50,7 +50,7 @@ const GfmEscape = require('gfm-escape');
 
 ```
 escaper = new GfmEscape(escapingOptions[, syntax])
-newStr = escaper.escape(str[, gfmContext[, metadata]])
+newStr = escaper.escape(input[, gfmContext[, metadata]])
 ```
 
 A created `GfmEscape` instance is intended to be reused and shared in your code.
@@ -90,13 +90,23 @@ The predefined syntaxes are available as members of `GfmEscape.Syntax`:
 - `cmAutolink`: text rendered `<here>`. Please note that a valid CommonMark must
   contain a URI scheme, which cannot be addressed by the escaper. When deciding if
   CommonMark autolink is an appropriate construct to use, we suggest to use
-  the `isEncodable(str)` and `wouldBeUnaltered(str)` methods on the
+  the `isEncodable(input)` and `wouldBeUnaltered(input)` methods on the
   `Syntax.cmAutolink` object.
 - `codeSpan`: text rendered `` `here` ``.
 
-When escaping, `gfmContext` is extra contextual information to be considered.
-The contexts have no defaults, i.e. they are falsy by default.
-The following contexts are available:
+`input`: the string to escape. Please note that correct escaping is currently
+only guaranteed when the input is trimmed and normalized in terms of whitespace.
+The library does not perform whitespace normalizing on its own, as it is often
+ensured by the source's origin, e.g. `textContent` of a normalized HTML DOM.
+Manual normalizing can be done with `input.trim().replace(/[ \t\n\r]+/g, ' ')`.
+If it is intended to keep the source somewhat organized in lines, the minimum
+treatment to make escaping safe would be `input.replace(/^[ \t\r\n]+|[ \t]+$/gm, '')`.
+In such case, the caller has a responsibility to place the output correctly in
+the generated document. I.e. to indent all the lines when the context requires
+indenting.
+
+`gfmContext`: extra contextual information to be considered. The contexts have
+no defaults, i.e. they are falsy by default. The following contexts are available:
 ```js
 {
   inLink: true, // indicates suppressing nested links
