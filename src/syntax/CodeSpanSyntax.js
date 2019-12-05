@@ -12,6 +12,10 @@ class CodeSpanSyntax extends BaseSyntax {
   static get name() {
     return NAME;
   }
+
+  isEncodable(str) {
+    return str.length > 0;
+  }
 }
 
 export default CodeSpanSyntax;

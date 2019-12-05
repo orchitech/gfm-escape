@@ -64,7 +64,7 @@ import autolinkedWwwReStr from '../utils/autolinkedWwwReStr';
 import C from '../../tools/output/cmark-unicode';
 import ExtWebAutolinkRenderer from './extAutolink/ExtWebAutolinkRenderer';
 import escapePipesIfInTable from '../utils/escapePipesIfInTable';
-import applyPostprocessor from '../utils/applyPostprocessor';
+import wrapPostprocessor from '../utils/wrapPostprocessor';
 
 const defaultOpts = Object.freeze({
   breakUrl: false,
@@ -72,7 +72,13 @@ const defaultOpts = Object.freeze({
   breaker: '<!-- -->',
   allowedTransformations: ['entities', 'commonmark'],
   allowAddHttpScheme: false,
+  inImage: false,
 });
+
+// true if autolink match should be considered autolink in given matching context
+const shouldProcess = ({ gfmContext, escape: { opts } }) => (
+  !gfmContext.inLink && (!gfmContext.inImage || opts.autolink.inImage)
+);
 
 // $1: before, $2: linkMatch, $3: linkStart, $4: scheme, $5: www.
 const EXT_WEB_AUTOLINK_RE = (() => {
@@ -96,19 +102,13 @@ const EXT_EMAIL_AUTOLINK_RE = /[-+.\w]+@(?:[-\w]+\.)+[-\w]*[^\W_](?![-@\w])/;
 
 /**
  * Process extended web autolink-like sequence in a plain text input.
- * @param {String} m Whole match.
- * @param {String} before h To-be-right-trimmed autolink sequence according to the spec.
- * @param {String} linkStarCharacter preceding the autolink - underscore or empty.
- * @param {String} linkMatch scheme or www.
- * @param {String} scheme `http://`, `https://` or undefined.
- * @param {String} www `www.` or undefined.
- * @param {Object} escaper The escaper being executed.
+ * @param {MatchingContext} mctx matching context.
  * @private
  */
 function processExtWebAutolink(mctx) {
   const [m, before, linkMatch, linkStart, scheme, www] = mctx.match;
   const outBefore = before ? `\\${before}` : '';
-  if (this.gfmContext.inLink) {
+  if (!shouldProcess(this)) {
     mctx.jump(before.length + linkStart.length);
     return `${outBefore}${linkStart}`;
   }
@@ -166,7 +166,7 @@ const GFM_EMAIL_UNDERSCORES_RE = /([a-z\d]_+)(?=[a-z\d])|_/gi;
 
 function processExtEmailAutolink(mctx) {
   const [emailMatch] = mctx.match;
-  if (this.gfmContext.inLink) {
+  if (!shouldProcess(this)) {
     const emailShred = emailMatch.match(/^.*?@/)[0];
     mctx.jump(emailShred.length);
     return this.escape.escape(emailShred, this.gfmContext, this.metadata);
@@ -185,7 +185,7 @@ export default function extAutolinkReplace() {
     return;
   }
   this.replacer.addReplacement(EXT_WEB_AUTOLINK_RE,
-    applyPostprocessor(processExtWebAutolink, escapePipesIfInTable),
+    wrapPostprocessor(processExtWebAutolink, escapePipesIfInTable),
     true);
   this.replacer.addReplacement(EXT_EMAIL_AUTOLINK_RE, processExtEmailAutolink, true);
 }

@@ -3,13 +3,14 @@
  * that aims to be truly complete and survive back-translation.
  * @author Martin Cizek, Orchitech Solutions
  * @see https://github.com/orchitech/gfm-escape#readme
- * @license
+ * @license MIT
  * @module
  */
 
 import UnionReplacer from 'union-replacer';
 import Syntax from './Syntax';
 import defaultSetup from './defaultSetup';
+import applyProcessors from './utils/applyProcessors';
 
 class GfmEscape {
   /**
@@ -24,6 +25,8 @@ class GfmEscape {
     this.syntax = syntax;
     this.opts = opts ? { ...opts } : {};
     this.replacer = new UnionReplacer('gm');
+    this.preprocessors = [];
+    this.postprocessors = [];
     setup(syntax).forEach(([replace, enabled]) => {
       if (enabled) {
         replace.call(this);
@@ -33,13 +36,15 @@ class GfmEscape {
     this.cache = {};
   }
 
-  escape(str, gfmContext = {}, metadata = {}) {
+  escape(input, gfmContext = {}, metadata = {}) {
     const escapeCtx = {
       escape: this,
       gfmContext,
       metadata,
     };
-    return this.replacer.replace(str, escapeCtx);
+    let str = applyProcessors.call(escapeCtx, input, this.preprocessors);
+    str = this.replacer.replace(str, escapeCtx);
+    return applyProcessors.call(escapeCtx, str, this.postprocessors);
   }
 }
 

@@ -45,7 +45,6 @@ class ExtWebAutolinkTransformers {
   /**
    * Escape characters in extended web autolink match according to the callers settings,
    * so that it is interpreted correctly in GFM.
-   * XXX needed / broken?
    * @param {String} str Link match portion to be escaped.
    * @private
    */

@@ -1,3 +1,4 @@
 dist
 tools/output
 test/mytest*
+test/browser/*

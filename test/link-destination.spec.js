@@ -9,4 +9,5 @@ describeEscapeBehavior('link destination syntax', mdEscaper, [
   'http://orchi.tech/_noemphasis_ here',
   ['_foo&amp;bar_', '_foo&amp;amp;bar_'],
   ['<foo>', '\\<foo\\>'],
+  ['', '<>'],
 ]);

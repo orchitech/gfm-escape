@@ -73,11 +73,16 @@ The current full options are:
      breakWww: false,
      breaker: '<!-- -->',
      allowedTransformations: [ 'entities', 'commonmark' ],
-     allowAddHttpScheme: false
+     allowAddHttpScheme: false,
+     inImage: false,
   },
   table: true, // default false
   emphasisNonDelimiters: { // default true
-    maxIntrawordUnderscoreRun: false
+    maxIntrawordUnderscoreRun: false,
+  },
+  linkTitle: { // default true
+    delimiters: [ '"', '\'', '()' ],
+    alwaysEscapeDelimiters: [],
   },
 }
 ```
@@ -93,10 +98,12 @@ The predefined syntaxes are available as members of `GfmEscape.Syntax`:
   the `isEncodable(input)` and `wouldBeUnaltered(input)` methods on the
   `Syntax.cmAutolink` object.
 - `codeSpan`: text rendered `` `here` ``.
+- `linkTitle`: text rendered `[text](destination "here")` or
+  `[text](destination 'here')` or `[text](destination (here))`.
 
 `input`: the string to escape. Please note that correct escaping is currently
 only guaranteed when the input is trimmed and normalized in terms of whitespace.
-The library does not perform whitespace normalizing on its own, as it is often
+The library does not perfos qrm whitespace normalizing on its own, as it is often
 ensured by the source's origin, e.g. `textContent` of a normalized HTML DOM.
 Manual normalizing can be done with `input.trim().replace(/[ \t\n\r]+/g, ' ')`.
 If it is intended to keep the source somewhat organized in lines, the minimum
@@ -110,19 +117,41 @@ no defaults, i.e. they are falsy by default. The following contexts are availabl
 ```js
 {
   inLink: true, // indicates suppressing nested links
+  inImage: true, // similar to inLink for ![this image text](img.png)
   inTable: true, // indicates extra escaping of table contents
 }
 ```
 When escaping, `metadata` is extra input-output parameter that collects
 metadata about the actual escaping. Currently `metadata` are used for
-`codeSpan` syntax, where two output parameters `delimiter` and `space` are passed:
+`codeSpan` syntax and `linkTitle` syntax.
 ```js
 const escaper = new GfmEscape({ table: true }, GfmEscape.Syntax.codeSpan);
-const x = {};
+const x = {}; // not necessary as the surrounding delimiter is always '`'
 const context = { inTable: true };
-const output = escaper.escape('`array|string`', context, x);
-console.log(`${x.delimiter}${x.space}${output}${x.space}${x.delimiter}`);
-// `` `array\|string` ``
+const escaped = escaper.escape('`array|string`', context, x);
+console.log(`\`${escaped}\``); // `` `array\|string` ``
+console.log(`${x.extraBacktickString.length} backtickts and ${x.extraSpace.length} spaces added.`);
+// 1 backticks and 1 spaces added.
+
+const linkTitleEscaper = new GfmEscape({}, GfmEscape.Syntax.linkTitle);
+const x = {}; // needed as we let GfmEscape decide the surrounding delimiter
+let escaped = escaper.escape('cool "link \'title\'"', context, x);
+console.log(`${x.startDelimiter}${escaped}${x.endDelimiter}`);
+// (cool "link 'title'")
+
+escaped = escaper.escape('average link title', context, x);
+console.log(`${x.startDelimiter}${escaped}${x.endDelimiter}`);
+// "average link title"
+
+const rigidLinkTitleEscaper = new GfmEscape({
+  linkTitle: {
+    delimiters: '"',
+  }
+}, GfmEscape.Syntax.linkTitle);
+// metadata not necessary, as the surronding delimiter will be always '"'
+escaped = escaper.escape('cool "link \'title\'"');
+console.log(`"${escaped}"`);
+// "cool \"link 'title'\""
 ```
 
 #### Escaping options: `strikethrough`
@@ -167,6 +196,10 @@ Suboptions:
 - `allowAddHttpScheme`: add `http://` scheme when a transformation needs it to
   work. E.g. `*www.orchi.tech,*` would become `\*<http://www.orchi.tech>,\*`
   with the `commonmark` transformation.
+- `inImage`: suggest if extended autolink treatment should be applied within
+  image text. Although the CommonMark spec says links are interpreted and just
+  the stripped plain text part renders to the `alt` attribute, cmark-gfm actually
+  does not do it for extended autolinks, so the default is false.
 
 _How to choose the options_:
 1. Consider rendering details of the target Markdown flavor. Backtranslation
@@ -195,7 +228,7 @@ not to escape them. E.g. in `My account is joe_average.`, the underscore stays
 unescaped as `joe_average`, not ~~`joe\_average`~~.
 
 Suboptions:
-* `maxIntrawordUnderscoreRun`: if defined, it sets the maximum length of intraword
+- `maxIntrawordUnderscoreRun`: if defined, it sets the maximum length of intraword
   underscores to be kept as is. E.g. for `1` and input `joe_average or joe__average`,
   the output would be `joe_average or joe\_\_average`. This is helpful for some renderers
   like Redcarpet. Defaults to `undefined`.
@@ -205,6 +238,16 @@ Suboptions:
 Defaults to `false`, i.e. table pipes are not escaped. If enabled, rendering of table
 delimiter rows is suppressed by escaping its pipes and all pipes are escaped when in
 table context.
+
+#### Escaping options: `linkTitle`
+
+Suboptions:
+- `delimiters`: array of allowed delimiter to be chosen from or a single delimiter.
+  Delimiters are `"`, `'` and `()`. When more delimiters are allowed, GfmEscape picks
+  the least interferring one. The picked delimiter is returned in metadata, as shown
+  in the example above.
+- `alwaysEscapeDelimiters`: array of delimiters that are always escaped.
+
 
 ## GFM escaping details
 
@@ -255,6 +298,7 @@ implementation of GFM Spec, we have found a few interesting details...
 - `cmark_gfm-005`: Backslash escape in link destination, e.g.
   `[foo](http://orchi.tech/foo\&lowbar;bar)` does not prevent entity reference
   from interpreting in rendered HTML. We use entity encoding instead, i.e. `&amp;`.
+  The same applies to link titles.
 
 ## TODO
 

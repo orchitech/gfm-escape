@@ -7,6 +7,7 @@ const SOME_TEXT = 'GfmEscape';
 const syntaxCreators = {
   text: (md) => md,
   linkText: (md) => `[${md}](${SOME_URL})`,
+  imageText: (md) => `![${md}](${SOME_URL})`,
   linkDestination: (md) => `[${SOME_TEXT}](${md})`,
   cmAutolink: (md) => `<${md}>`,
 };
@@ -24,6 +25,10 @@ const syntaxMatchers = {
     expect(render).toHaveSingleChildNode();
     expect(render).toHaveSameTextContentAs(input);
     expect(render).toHaveLinks([SOME_URL]);
+  },
+  imageText: (render) => {
+    expect(render).toHaveSingleChildNode();
+    // TODO: add checks related to image
   },
   linkDestination: (render, input) => {
     expect(render).toHaveSingleChildNode();
@@ -50,6 +55,9 @@ const contextualSyntax = (syntaxName, gfmContext) => {
     }
     if (gfmContext.inLink) {
       return 'linkText';
+    }
+    if (gfmContext.inImage) {
+      return 'imageText';
     }
   }
   return syntaxName;
