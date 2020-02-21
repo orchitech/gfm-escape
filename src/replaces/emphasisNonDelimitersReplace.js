@@ -2,7 +2,7 @@ import mergeOpts from '../utils/mergeOpts';
 import extWebAutolinkStartCandidateReStr from '../utils/extWebAutolinkStartCandidateReStr';
 
 const defaultOpts = {
-  maxIntrawordUnderscoreRun: false,
+  maxIntrawordUnderscoreRun: undefined,
 };
 
 const INTRAWORD_UNDERSORES_RE = new RegExp(

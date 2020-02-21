@@ -78,7 +78,7 @@ The current full options are:
   },
   table: true, // default false
   emphasisNonDelimiters: { // default true
-    maxIntrawordUnderscoreRun: false,
+    maxIntrawordUnderscoreRun: undefined,
   },
   linkTitle: { // default true
     delimiters: [ '"', '\'', '()' ],
@@ -228,10 +228,12 @@ not to escape them. E.g. in `My account is joe_average.`, the underscore stays
 unescaped as `joe_average`, not ~~`joe\_average`~~.
 
 Suboptions:
-- `maxIntrawordUnderscoreRun`: if defined, it sets the maximum length of intraword
-  underscores to be kept as is. E.g. for `1` and input `joe_average or joe__average`,
-  the output would be `joe_average or joe\_\_average`. This is helpful for some renderers
-  like Redcarpet. Defaults to `undefined`.
+- `maxIntrawordUnderscoreRun`: if defined as a number, it sets the maximum length of
+  intraword underscores to be kept as is. E.g. for `1` and input
+  `joe_average or joe__average`, the output would be `joe_average or joe\_\_average`.
+  This is helpful for some renderers like Redcarpet. Both `undefined` and `false`
+  mean no limit on unescaped intraword underscore run length.
+  Defaults to `undefined`.
 
 #### Escaping options: `table`
 

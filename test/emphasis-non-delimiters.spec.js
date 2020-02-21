@@ -1,16 +1,12 @@
 const GfmEscape = require('../dist/gfm-escape.cjs');
 const describeEscapeBehavior = require('./behavior/describeEscapeBehavior');
 
-const escapeOpts = {
+const escapeOptsIntrawordUnderscoresUnlimited = {
   extAutolink: true,
-  emphasisNonDelimiters: {
-    maxIntrawordUnderscoreRun: undefined,
-  },
 };
-
 describeEscapeBehavior(
   'emphasisNonDelimiters (unlimited intraword underscores)',
-  new GfmEscape(escapeOpts),
+  new GfmEscape(escapeOptsIntrawordUnderscoresUnlimited),
   [
     ['a_b', 'a_b'],
     ['a_.', 'a\\_.'],
@@ -24,10 +20,15 @@ describeEscapeBehavior(
   ],
 );
 
-escapeOpts.emphasisNonDelimiters.maxIntrawordUnderscoreRun = 1;
+const escapeOptsIntrawordUnderscores1 = {
+  extAutolink: true,
+  emphasisNonDelimiters: {
+    maxIntrawordUnderscoreRun: 1,
+  },
+};
 describeEscapeBehavior(
   'emphasisNonDelimiters (max 1 intraword underscore)',
-  new GfmEscape(escapeOpts),
+  new GfmEscape(escapeOptsIntrawordUnderscores1),
   [
     ['a_b', 'a_b'],
     ['a_.', 'a\\_.'],
