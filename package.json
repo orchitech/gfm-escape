@@ -1,6 +1,6 @@
 {
   "name": "gfm-escape",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Markdown and GFM escaper for converting plaintext into escaped Markdown",
   "main": "dist/gfm-escape.cjs.js",
   "module": "dist/gfm-escape.esm.js",
