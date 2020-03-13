@@ -9,13 +9,13 @@ const BACKSLASH_BLOCK_RE = new RegExp([
   '^~(?=~~)',
 ].join('|'));
 
-// $1: number
-const ORDERED_LIST_RE = /^(\d+)\.(?=\s|$)/;
+// $1: number, $2: marker character
+const ORDERED_LIST_RE = /^(\d+)([.)])(?=\s|$)/;
 
 /**
  * Escape block syntax.
  */
 export default function blockReplace() {
   this.replacer.addReplacement(BACKSLASH_BLOCK_RE, '\\$&');
-  this.replacer.addReplacement(ORDERED_LIST_RE, '$1\\.');
+  this.replacer.addReplacement(ORDERED_LIST_RE, '$1\\$2');
 }
