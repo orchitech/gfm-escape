@@ -12,4 +12,5 @@ describeEscapeBehavior('text syntax (ext autolinks on)', mdEscaper, [
   ['And&amp;&&frac12;&12frac;', 'And\\&amp;&\\&frac12;&12frac;'],
   ['1. a\n2.b\n3.\n_4. end', '1\\. a\n2.b\n3\\.\n\\_4. end'],
   ['1) a\n2)b\n3)\n_4) end', '1\\) a\n2)b\n3\\)\n\\_4) end'],
+  ['\\. \\\\ \\\\$ \\\n\\a', '\\\\. \\\\\\ \\\\\\\\$ \\\\\n\\a'],
 ]);

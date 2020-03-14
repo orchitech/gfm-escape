@@ -2,7 +2,7 @@ import { entityAmpersandReStr } from '../utils/entityAmpersandRes';
 
 const INLINE_RE = new RegExp([
   '[*_[\\]`<>]',
-  '\\\\(?=[!"#$%&\'()*+,-./:;<=>?@\\[\\\\]^_`{|}~]|$)',
+  '\\\\(?=[-!"#$%&\'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~]|$)',
   entityAmpersandReStr,
 ].join('|'));
 
