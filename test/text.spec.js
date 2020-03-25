@@ -13,4 +13,5 @@ describeEscapeBehavior('text syntax (ext autolinks on)', mdEscaper, [
   ['1. a\n2.b\n3.\n_4. end', '1\\. a\n2.b\n3\\.\n\\_4. end'],
   ['1) a\n2)b\n3)\n_4) end', '1\\) a\n2)b\n3\\)\n\\_4) end'],
   ['\\. \\\\ \\\\$ \\\n\\a', '\\\\. \\\\\\ \\\\\\\\$ \\\\\n\\a'],
+  ['line  \nbreak', 'line  <!-- spaces -->\nbreak'],
 ]);
