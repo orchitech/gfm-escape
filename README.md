@@ -258,10 +258,10 @@ Terminology:
   - *cmUriAutolink* - CommonMark [URI autolink](https://spec.commonmark.org/0.29/#uri-autolink)
   - *cmEmailAutolink* - CommonMark [email autolink](https://spec.commonmark.org/0.29/#email-autolink)
 - *extAutolink* - GFM [extended autolink](https://github.github.com/gfm/#autolinks-extension-)
-  - extWebAutolink - GFM extended url or www autolink
-     - extUrlAutolink - GFM [extended url autolink](https://github.github.com/gfm/#extended-url-autolink)
-     - extWwwAutolink - GFM [extended www autolink](https://github.github.com/gfm/#extended-www-autolink)
-  - extEmailAutolink - GFM [extended email autolink](https://github.github.com/gfm/#extended-email-autolink)
+  - *extWebAutolink* - GFM extended url or www autolink
+     - *extUrlAutolink* - GFM [extended url autolink](https://github.github.com/gfm/#extended-url-autolink)
+     - *extWwwAutolink* - GFM [extended www autolink](https://github.github.com/gfm/#extended-www-autolink)
+  - *extEmailAutolink* - GFM [extended email autolink](https://github.github.com/gfm/#extended-email-autolink)
 
 Specs:
 - [CommonMark](https://spec.commonmark.org/)
