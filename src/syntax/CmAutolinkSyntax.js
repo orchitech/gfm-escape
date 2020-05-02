@@ -5,6 +5,8 @@ import { entityAmpersandRe } from '../utils/entityAmpersandRes';
 
 const NAME = 'cmAutolink';
 const STARTS_WITH_AUTOLINKED_SCHEME_RE = new RegExp(`^${autolinkedSchemeReStr}`);
+// adapted from the non-normative regex in the HTML5 spec
+const EMAIL_ADDRESS_RE = /^[\w.!#$%&'*+/=?^`{|}~-]+@[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?)*$/i;
 
 class CmAutolinkSyntax extends BaseSyntax {
   constructor() {
@@ -19,7 +21,8 @@ class CmAutolinkSyntax extends BaseSyntax {
   }
 
   isEncodable(str) {
-    return STARTS_WITH_AUTOLINKED_SCHEME_RE.test(str);
+    return STARTS_WITH_AUTOLINKED_SCHEME_RE.test(str)
+      || EMAIL_ADDRESS_RE.test(str);
   }
 
   wouldBeUnaltered(str) {

@@ -17,6 +17,7 @@ describe('unaltered CM autolink', () => {
     'http:/orchi.tech',
     'xttp://orchi.tech',
     '://orchi.tech',
+    'mailto:dont-call-me-mailto@example.org',
   ].forEach((str) => {
     it(`is not possible to make autolink from '${str}'`, () => {
       expect(cmAutolink.isEncodable(str)).toBeFalsy();
@@ -27,6 +28,8 @@ describe('unaltered CM autolink', () => {
     'HTTP://orchi.tech',
     'HtTpS://orchi.tech',
     'FTP://kernel.org',
+    'joe.average@example.org',
+    'joe@example',
   ].forEach((str) => {
     it(`is possible to make autolink from '${str}'`, () => {
       expect(cmAutolink.isEncodable(str)).toBeTruthy();
