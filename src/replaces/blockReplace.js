@@ -16,6 +16,6 @@ const ORDERED_LIST_RE = /^(\d+)([.)])(?=\s|$)/;
  * Escape block syntax.
  */
 export default function blockReplace() {
-  this.replacer.addReplacement(BACKSLASH_BLOCK_RE, '\\$&');
-  this.replacer.addReplacement(ORDERED_LIST_RE, '$1\\$2');
+  this.replaces.push([BACKSLASH_BLOCK_RE, '\\$&']);
+  this.replaces.push([ORDERED_LIST_RE, '$1\\$2']);
 }

@@ -30,8 +30,6 @@ export default function emphasisNonDelimitersReplace() {
   if (typeof max !== 'number') {
     this.opts.emphasisNonDelimiters.maxIntrawordUnderscoreRun = max ? 1 : false;
   }
-  this.replacer.addReplacement(INTRAWORD_UNDERSORES_RE,
-    processIntrawordUnderscores,
-    true);
-  this.replacer.addReplacement(FREE_DELIMITER_RE, '$&');
+  this.replaces.push([INTRAWORD_UNDERSORES_RE, processIntrawordUnderscores, true]);
+  this.replaces.push([FREE_DELIMITER_RE, '$&']);
 }

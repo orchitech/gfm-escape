@@ -33,7 +33,8 @@ See below for more details.
 
 In browsers:
 ```html
-<script src="https://unpkg.com/gfm-escape/dist/gfm-escape.umd.js" />
+<script src="https://unpkg.com/union-replacer/dist/union-replacer.umd.js"></script>
+<script src="https://unpkg.com/gfm-escape/dist/gfm-escape.umd.js"></script>
 ```
 
 Using [npm](https://www.npmjs.com/):

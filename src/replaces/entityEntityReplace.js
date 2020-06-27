@@ -6,5 +6,5 @@ import { entityAmpersandRe } from '../utils/entityAmpersandRes';
  * see cmark_gfm-005.
  */
 export default function entityEntityReplace() {
-  this.replacer.addReplacement(entityAmpersandRe, '&amp;');
+  this.replaces.push([entityAmpersandRe, '&amp;']);
 }

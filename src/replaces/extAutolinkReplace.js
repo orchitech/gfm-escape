@@ -184,8 +184,8 @@ export default function extAutolinkReplace() {
   if (!mergeOpts(this.opts, 'extAutolink', defaultOpts)) {
     return;
   }
-  this.replacer.addReplacement(EXT_WEB_AUTOLINK_RE,
+  this.replaces.push([EXT_WEB_AUTOLINK_RE,
     wrapPostprocessor(processExtWebAutolink, escapePipesIfInTable),
-    true);
-  this.replacer.addReplacement(EXT_EMAIL_AUTOLINK_RE, processExtEmailAutolink, true);
+    true]);
+  this.replaces.push([EXT_EMAIL_AUTOLINK_RE, processExtEmailAutolink, true]);
 }

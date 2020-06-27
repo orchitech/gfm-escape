@@ -24,7 +24,7 @@ class GfmEscape {
   constructor(opts, syntax = Syntax.text, setup = GfmEscape.defaultSetup) {
     this.syntax = syntax;
     this.opts = opts ? { ...opts } : {};
-    this.replacer = new UnionReplacer('gm');
+    this.replaces = [];
     this.preprocessors = [];
     this.postprocessors = [];
     setup(syntax).forEach(([replace, enabled]) => {
@@ -32,8 +32,7 @@ class GfmEscape {
         replace.call(this);
       }
     });
-    this.replacer.compile();
-    this.cache = {};
+    this.replacer = new UnionReplacer(this.replaces, 'gm');
   }
 
   escape(input, gfmContext = {}, metadata = {}) {

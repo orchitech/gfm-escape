@@ -2,7 +2,6 @@ import mergeOpts from '../utils/mergeOpts';
 
 const defaultOpts = true;
 
-
 const TABLE_DELIMITER_ROW_RE = (() => {
   const SP = '[ \\t]*';
   const CELL = `${SP}:?-+:?${SP}`;
@@ -23,5 +22,5 @@ export default function tableDelimiterRowReplace() {
   if (!mergeOpts(this.opts, 'table', defaultOpts)) {
     return;
   }
-  this.replacer.addReplacement(TABLE_DELIMITER_ROW_RE, processTableDelimiterRow, true);
+  this.replaces.push([TABLE_DELIMITER_ROW_RE, processTableDelimiterRow, true]);
 }

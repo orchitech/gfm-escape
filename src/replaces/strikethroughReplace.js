@@ -18,5 +18,5 @@ export default function strikethroughReplace() {
   if (!mergeOpts(this.opts, 'strikethrough', defaultOpts)) {
     return;
   }
-  this.replacer.addReplacement(STRIKETHROUGH_RE, processStrikethrough, true);
+  this.replaces.push([STRIKETHROUGH_RE, processStrikethrough, true]);
 }

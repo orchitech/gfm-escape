@@ -1,4 +1,3 @@
-
 function itProducesExpectedOutput(input, expected) {
   let inputStr = input;
   let gfmContext = {};

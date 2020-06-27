@@ -9,5 +9,5 @@ export default function tablePipeReplace() {
   if (!this.opts.table) {
     return;
   }
-  this.replacer.addReplacement(PIPE_RE, escapePipesIfInTable);
+  this.replaces.push([PIPE_RE, escapePipesIfInTable]);
 }

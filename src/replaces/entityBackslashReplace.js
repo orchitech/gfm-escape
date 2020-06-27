@@ -5,5 +5,5 @@ import { entityAmpersandRe } from '../utils/entityAmpersandRes';
  * is not an option, i.e. in CM autolinks.
  */
 export default function entityBackslashReplace() {
-  this.replacer.addReplacement(entityAmpersandRe, '\\&');
+  this.replaces.push([entityAmpersandRe, '\\&']);
 }

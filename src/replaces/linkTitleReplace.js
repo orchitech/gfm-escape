@@ -81,5 +81,5 @@ export default function linkTitleReplace() {
     return;
   }
   this.preprocessors.push(scanDelimiters);
-  this.replacer.addReplacement(LINK_TITLE_DELIMS_RE, processLinkTitleDelim, true);
+  this.replaces.push([LINK_TITLE_DELIMS_RE, processLinkTitleDelim, true]);
 }

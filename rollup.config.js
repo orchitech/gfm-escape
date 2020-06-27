@@ -6,11 +6,13 @@ import pkg from './package.json';
 export default [
   {
     input: 'src/GfmEscape.js',
+    external: ['union-replacer'],
     plugins: [
       commonjs(),
       resolve(),
       babel({
         exclude: ['node_modules/**', 'tools/output/**'],
+        comments: false,
         presets: [
           [
             '@babel/env', {
@@ -21,6 +23,7 @@ export default [
                 esmodules: false,
               },
               useBuiltIns: false,
+              loose: true,
             },
           ],
         ],
@@ -29,7 +32,12 @@ export default [
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' },
-      { file: pkg.browser, name: 'GfmEscape', format: 'umd' },
+      {
+        file: pkg.browser,
+        name: 'GfmEscape',
+        format: 'umd',
+        globals: { 'union-replacer': 'UnionReplacer' },
+      },
     ],
   },
 ];

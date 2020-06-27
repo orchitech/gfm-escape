@@ -8,6 +8,6 @@ function renderEmptyLinkDestination(output) {
  * Escape parentheses and brackets.
  */
 export default function linkDestinationReplace() {
-  this.replacer.addReplacement(LINK_DESTINATION_SPECIALS_RE, '\\$&');
+  this.replaces.push([LINK_DESTINATION_SPECIALS_RE, '\\$&']);
   this.postprocessors.unshift(renderEmptyLinkDestination);
 }
