@@ -1,15 +1,9 @@
-const request = require('request');
 const jsesc = require('jsesc');
 const fs = require('fs');
 const path = require('path');
 
 // https://spec.commonmark.org/0.29/#entity-references
 const ENTITIES_URL = 'https://html.spec.whatwg.org/entities.json';
-
-const requestOptions = {
-  url: ENTITIES_URL,
-  json: true,
-};
 
 const outputName = path.basename(__filename, '.js').replace(/^build-/, '');
 
@@ -79,9 +73,12 @@ const processEntities = (entities) => {
   writeTo(outputName, out);
 };
 
-request(requestOptions, (error, response, entities) => {
-  if (error || response.statusCode !== 200) {
-    throw new Error(`Cannot load entities.json (error=${error}, code=${response.statusCode})`);
+const loadEntities = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Cannot load ${url} (status=${response.status} ${response.statusText})`);
   }
-  processEntities(entities);
-});
+  return response.json();
+};
+
+loadEntities(ENTITIES_URL).then(processEntities);
