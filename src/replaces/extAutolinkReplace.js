@@ -173,8 +173,10 @@ function processExtEmailAutolink(mctx) {
   }
   // Thankfuly backlashs escapes are OK within extended email autolinks,
   // since only strictly intraword underscores are safe to keep.
-  return emailMatch.replace(GFM_EMAIL_UNDERSCORES_RE,
-    (m, keep) => (keep ? m : `\\${m}`));
+  return emailMatch.replace(
+    GFM_EMAIL_UNDERSCORES_RE,
+    (m, keep) => (keep ? m : `\\${m}`),
+  );
 }
 
 /**

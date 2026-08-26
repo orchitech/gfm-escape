@@ -303,6 +303,18 @@ implementation of GFM Spec, we have found a few interesting details...
   from interpreting in rendered HTML. We use entity encoding instead, i.e. `&amp;`.
   The same applies to link titles.
 
+## Development
+
+The development toolchain requires Node.js 20.19+ (20.19, 22.13 or 24 and newer).
+The published bundles themselves keep targeting older runtimes and browsers,
+see the `@babel/env` targets in `rollup.config.mjs`.
+
+```sh
+npm install   # builds the native cmark-gfm test dependency
+npm run lint
+npm test      # lints, builds and runs the specs against cmark-gfm
+```
+
 ## TODO
 
 - Minification for browsers.

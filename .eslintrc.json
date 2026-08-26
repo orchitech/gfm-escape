@@ -3,5 +3,17 @@
   "rules": {
     "no-plusplus": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["rollup.config.mjs"],
+      "parserOptions": {
+        "ecmaVersion": 2022,
+        "sourceType": "module"
+      },
+      "rules": {
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+      }
+    }
+  ]
 }
